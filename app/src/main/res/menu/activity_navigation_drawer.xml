@@ -10,7 +10,7 @@
             android:title="Statistics" />
         <item
             android:id="@+id/nav_driving_logs"
-            android:title="Slideshow" />
+            android:title="Driving Logs" />
     </group>
 
 </menu>
