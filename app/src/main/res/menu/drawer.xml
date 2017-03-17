@@ -3,13 +3,13 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_new_lesson"
+            android:id="@+id/drawer_new_lesson"
             android:title="New Lesson" />
         <item
-            android:id="@+id/nav_statistics"
+            android:id="@+id/drawer_statistics"
             android:title="Statistics" />
         <item
-            android:id="@+id/nav_driving_logs"
+            android:id="@+id/drawer_driving_logs"
             android:title="Driving Logs" />
     </group>
 

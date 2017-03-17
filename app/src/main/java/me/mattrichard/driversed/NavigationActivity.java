@@ -1,9 +1,8 @@
 package me.mattrichard.driversed;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,14 +11,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
-public class NavigationActivity extends AppCompatActivity
+public abstract class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    protected abstract void setInnerContentView(ViewGroup root);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+
+        // Populate activity with content specified by non-abstract subclass
+        CoordinatorLayout root = (CoordinatorLayout) findViewById(R.id.root_layout);
+        setInnerContentView(root);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -47,7 +53,7 @@ public class NavigationActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation, menu);
+        getMenuInflater().inflate(R.menu.action_bar, menu);
         return true;
     }
 
@@ -69,16 +75,18 @@ public class NavigationActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handle action_bar view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_new_lesson) {
-            // Handle the camera action
-        } else if (id == R.id.nav_statistics) {
-
-        } else if (id == R.id.nav_driving_logs) {
-
+        Intent intent = null;
+        if (id == R.id.drawer_new_lesson) {
+            intent = new Intent(this, NewLessonActivity.class);
+        } else if (id == R.id.drawer_statistics) {
+            intent = new Intent(this, StatisticsActivity.class);
+        } else if (id == R.id.drawer_driving_logs) {
+            intent = new Intent(this, LogsActivity.class);
         }
+        startActivity(intent);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
