@@ -17,4 +17,13 @@
         android:layout_height="wrap_content"
         android:text="New Lesson!" />
 
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:name="me.mattrichard.driversed.LessonFragment"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/lesson_fragment" />
+
 </RelativeLayout>
