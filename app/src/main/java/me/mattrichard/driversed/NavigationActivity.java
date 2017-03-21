@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 
 /**
- * Abstract class for an activity with a navigation drawer.
+ * An activity with a navigation drawer.
  */
 public abstract class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

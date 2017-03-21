@@ -8,49 +8,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="me.mattrichard.driversed.LessonFragment">
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_weight="2"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingBottom="10dp">
-
-        <Button
-            android:text="start"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/buttonStart"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorStart"
-            android:textSize="30sp"
-            android:layout_marginRight="10dp"
-            android:onClick="onPressStart" />
-
-        <Button
-            android:text="stop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/buttonStop"
-            android:layout_weight="1"
-            android:elevation="8dp"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/colorStop"
-            android:textSize="30sp"
-            android:onClick="onPressStop"
-            android:visibility="visible"
-            android:enabled="false" />
-
-    </LinearLayout>
+    tools:context="me.mattrichard.driversed.EditLessonFragment">
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
+        android:layout_weight="1"
         android:gravity="center_vertical">
 
         <TableRow
@@ -181,6 +144,41 @@
             android:layout_weight="1"
             android:entries="@array/weather_conditions"
             android:gravity="center_vertical|center_horizontal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp">
+
+        <Button
+            android:text="start"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/buttonStart"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorStart"
+            android:textSize="30sp"
+            android:layout_marginRight="10dp" />
+
+        <Button
+            android:text="stop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/buttonStop"
+            android:layout_weight="1"
+            android:elevation="8dp"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="@color/colorStop"
+            android:textSize="30sp"
+            android:visibility="visible"
+            android:enabled="false" />
 
     </LinearLayout>
 
