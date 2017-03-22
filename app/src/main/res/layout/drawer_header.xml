@@ -17,6 +17,7 @@
         android:layout_width="72sp"
         app:srcCompat="@mipmap/ic_launcher"
         android:id="@+id/imageView"
+        android:tint="@android:color/white"
         android:layout_height="72sp" />
 
     <TextView
@@ -27,7 +28,7 @@
         android:layout_weight="2"
         android:gravity="center_vertical"
         android:textSize="30sp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textAlignment="center" />
 
     <TextView

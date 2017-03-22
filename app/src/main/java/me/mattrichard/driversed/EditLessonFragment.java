@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,10 +23,12 @@ public class EditLessonFragment extends Fragment {
 
     private int mLessonNum;
 
-    private OnFragmentInteractionListener mListener;
+    private OnLessonSaveListener mListener;
 
     private Button startButton;
     private Button stopButton;
+    private Button clearButton;
+    private MenuItem saveAction;
     private Spinner lessonTypeSpinner;
     private Spinner conditionsSpinner;
     private TextView dateText;
@@ -35,7 +40,7 @@ public class EditLessonFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static EditLessonFragment newInstance(int lessonNum, boolean editing) {
+    public static EditLessonFragment newInstance(int lessonNum) {
         EditLessonFragment fragment = new EditLessonFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_LESSON_NUM, lessonNum);
@@ -60,6 +65,7 @@ public class EditLessonFragment extends Fragment {
         // Find views
         startButton = (Button) layout.findViewById(R.id.buttonStart);
         stopButton = (Button) layout.findViewById(R.id.buttonStop);
+        clearButton = (Button) layout.findViewById(R.id.buttonClear);
         lessonTypeSpinner = (Spinner) layout.findViewById(R.id.lessonTypeSpinner);
         conditionsSpinner = (Spinner) layout.findViewById(R.id.conditionSpinner);
         dateText = (TextView) layout.findViewById(R.id.dateText);
@@ -69,7 +75,7 @@ public class EditLessonFragment extends Fragment {
         dateText.setText(new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime()));
         hoursText.setText("-");
 
-        // Hook up buttons and onClick callbacks
+        // Hook up buttons to onClick callbacks
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +88,15 @@ public class EditLessonFragment extends Fragment {
                 onPressStop(view);
             }
         });
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPressClear(view);
+            }
+        });
+
+        // Tell activity that this fragment has action bar items to add
+        setHasOptionsMenu(true);
 
         return layout;
     }
@@ -92,8 +107,8 @@ public class EditLessonFragment extends Fragment {
 
         stopButton.setEnabled(true);
         startButton.setEnabled(false);
-        //clearButton.setEnabled(false);
-        //saveButton.setEnabled(false);
+        clearButton.setEnabled(false);
+        saveAction.setEnabled(false);
     }
 
     public void onPressStop(View v) {
@@ -103,8 +118,8 @@ public class EditLessonFragment extends Fragment {
 
         stopButton.setEnabled(false);
         startButton.setEnabled(true);
-        //clearButton.setEnabled(true);
-        //saveButton.setEnabled(true);
+        clearButton.setEnabled(true);
+        saveAction.setEnabled(true);
     }
 
     public void onPressClear(View v) {
@@ -113,16 +128,43 @@ public class EditLessonFragment extends Fragment {
         dateText.setText(new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime()));
     }
 
-    public void onPressSave(View v) {
-        Toast.makeText(getActivity(), "Drive saved", Toast.LENGTH_SHORT).show();
-        // TODO: pass control to containing activity
+    public void onPressSave() {
+        String toast;
+        if (numHours > 0) {
+            toast = "Drive saved";
+            // TODO: Save data
+        } else {
+            toast = "Won't save 0-hour drive";
+        }
+        Toast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
+
+        // pass control to activity
+        mListener.onLessonSave();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.action_bar_edit_lesson, menu);
+        saveAction = menu.findItem(R.id.action_save);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_save:
+                onPressSave(); break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnLessonSaveListener) {
+            mListener = (OnLessonSaveListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -135,7 +177,7 @@ public class EditLessonFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        //void onFragmentInteraction(Uri uri);
+    public interface OnLessonSaveListener {
+        void onLessonSave();
     }
 }

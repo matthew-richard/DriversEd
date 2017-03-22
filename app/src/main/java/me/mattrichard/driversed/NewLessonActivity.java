@@ -6,7 +6,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 
 public class NewLessonActivity extends NavigationActivity
-        implements EditLessonFragment.OnFragmentInteractionListener {
+        implements EditLessonFragment.OnLessonSaveListener {
 
     private EditLessonFragment editLessonFragment;
 
@@ -41,5 +41,8 @@ public class NewLessonActivity extends NavigationActivity
         return super.onNavigationItemSelected(item);
     }
 
+    @Override
+    public void onLessonSave() {
 
+    }
 }

@@ -4,13 +4,16 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/drawer_new_lesson"
-            android:title="New Lesson" />
+            android:title="New Lesson"
+            android:icon="@drawable/ic_add_black_24dp" />
         <item
             android:id="@+id/drawer_statistics"
-            android:title="Statistics" />
+            android:title="Statistics"
+            android:icon="@drawable/ic_stats_black_24dp"/>
         <item
             android:id="@+id/drawer_driving_logs"
-            android:title="Driving Logs" />
+            android:title="Driving Logs"
+            android:icon="@drawable/ic_history_black_24dp"/>
     </group>
 
 </menu>

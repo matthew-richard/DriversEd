@@ -6,6 +6,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:spinnerItemStyle">@style/mySpinnerItemStyle</item>
+        <item name="android:spinnerStyle">@style/mySpinnerStyle</item>
+    </style>
+
+    <style name="mySpinnerItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textSize">19sp</item>
+    </style>
+
+    <style name="mySpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:textSize">19sp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
