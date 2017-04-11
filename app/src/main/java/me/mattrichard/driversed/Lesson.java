@@ -32,4 +32,17 @@ public class Lesson {
     public TimeOfDay timeOfDay;
     public LessonType lessonType;
     public Weather weather;
+
+    public static String formatEnumString(String s) {
+        return s.toLowerCase().replace('_', '/');
+    }
+
+    public static Lesson load(int id) {
+        // return lesson in db
+        return new Lesson();
+    }
+
+    public void save() {
+        // save lesson to database, creating new one (and assigning id) if necessary
+    }
 }
