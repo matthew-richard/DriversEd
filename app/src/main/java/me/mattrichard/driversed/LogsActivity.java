@@ -1,18 +1,13 @@
 package me.mattrichard.driversed;
 
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class LogsActivity extends NavigationActivity {
 
@@ -31,7 +26,7 @@ public class LogsActivity extends NavigationActivity {
         // Generate hardcoded lessons, populate ListView with them
         ArrayList<Lesson> hardcodedLessons = generateHardcodedLessons();
 
-        listView.setAdapter(new LessonsAdapter(this, hardcodedLessons));
+        listView.setAdapter(new LessonsArrayAdapter(this, hardcodedLessons));
 
     }
 
