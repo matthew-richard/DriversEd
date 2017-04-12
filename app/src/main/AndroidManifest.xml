@@ -11,8 +11,8 @@
         <activity
             android:name=".NewLessonActivity"
             android:label="New Lesson"
-            android:theme="@style/AppTheme.NoActionBar">
-            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
