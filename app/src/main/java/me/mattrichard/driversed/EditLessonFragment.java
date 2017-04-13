@@ -19,9 +19,6 @@ import java.util.Calendar;
 
 
 public class EditLessonFragment extends Fragment {
-    private static final String ARG_LESSON_NUM = "lessonNum";
-
-    private int mLessonNum;
 
     private OnLessonSaveListener mListener;
 
@@ -34,26 +31,17 @@ public class EditLessonFragment extends Fragment {
     private TextView dateText;
     private TextView hoursText;
     private Long startTime = null;
-    private float numHours = 0;
+
+    public Lesson lesson;
 
     public EditLessonFragment() {
         // Required empty public constructor
-    }
-
-    public static EditLessonFragment newInstance(int lessonNum) {
-        EditLessonFragment fragment = new EditLessonFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_LESSON_NUM, lessonNum);
-        fragment.setArguments(args);
-        return fragment;
+        this.lesson = new Lesson();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mLessonNum = getArguments().getInt(ARG_LESSON_NUM);
-        }
     }
 
     @Override
@@ -112,8 +100,8 @@ public class EditLessonFragment extends Fragment {
     }
 
     public void onPressStop(View v) {
-        numHours += (System.currentTimeMillis() - startTime) / (double) (1000 * 60 * 60);
-        hoursText.setText(String.format("%.2f", numHours));
+        lesson.numHours += (System.currentTimeMillis() - startTime) / (double) (1000 * 60 * 60);
+        hoursText.setText(String.format("%.2f", lesson.numHours));
         startTime = null;
 
         stopButton.setEnabled(false);
@@ -123,16 +111,16 @@ public class EditLessonFragment extends Fragment {
     }
 
     public void onPressClear(View v) {
-        numHours = 0;
+        lesson.numHours = 0;
         hoursText.setText("-");
         dateText.setText(new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime()));
     }
 
     public void onPressSave() {
         String toast;
-        if (numHours > 0) {
+        if (lesson.numHours > 0) {
             toast = "Drive saved";
-            // TODO: Save data
+            lesson.save();
         } else {
             toast = "Won't save 0-hour drive";
         }
