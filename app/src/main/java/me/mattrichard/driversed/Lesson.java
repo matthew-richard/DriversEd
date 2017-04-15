@@ -6,9 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Environment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import static java.lang.System.exit;
 
 public class Lesson {
     private static SQLiteDatabase mDb = null;
@@ -41,8 +44,7 @@ public class Lesson {
     private Lesson(Cursor c) {
         this.id = c.getInt(c.getColumnIndex("id"));
         this.numHours = c.getFloat(c.getColumnIndex("hours"));
-        // l.date = c.getString(c.getColumnIndex("date")); // TODO: Parse date
-        this.date = Calendar.getInstance().getTime();
+        this.date = new Date(c.getLong(c.getColumnIndex("date")));
         this.timeOfDay = TimeOfDay.valueOf(c.getString(c.getColumnIndex("timeOfDay")));
         this.lessonType = LessonType.valueOf(c.getString(c.getColumnIndex("lessonType")));
         this.weather = Weather.valueOf(c.getString(c.getColumnIndex("weather")));
@@ -61,7 +63,7 @@ public class Lesson {
         // save lesson to database, creating new one (and assigning id) if necessary
         ContentValues values = new ContentValues();
         values.put("hours", this.numHours);
-        values.put("date", this.date.toString());
+        values.put("date", this.date.getTime());
         values.put("timeOfDay", this.timeOfDay.toString());
         values.put("lessonType", this.lessonType.toString());
         values.put("weather", this.weather.toString());
@@ -95,6 +97,7 @@ public class Lesson {
     }
 
     private static SQLiteDatabase getDb() {
+
         if (mDb != null) {
             return mDb;
         }
@@ -106,7 +109,7 @@ public class Lesson {
             // Create database if it doesn't exist
             mDb = SQLiteDatabase.openOrCreateDatabase(DB_PATH, null);
             mDb.execSQL("create table if not exists lessons (id integer primary key autoincrement, "
-                    + "hours float not null, date varchar(25) not null, timeOfDay varchar(25) not null, "
+                    + "hours float not null, date long not null, timeOfDay varchar(25) not null, "
                     + "lessonType varchar(25) not null, weather varchar(25) not null)");
         }
 
