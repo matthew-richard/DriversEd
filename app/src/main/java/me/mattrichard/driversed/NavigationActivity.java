@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 public abstract class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    protected abstract int getNavID();
+
     protected abstract void setInnerContentView(ViewGroup root);
 
     @Override
@@ -41,6 +43,7 @@ public abstract class NavigationActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(this.getNavID());
     }
 
     @Override
@@ -77,6 +80,16 @@ public abstract class NavigationActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /* Reset the drawer selection, because we unintentionally made each
+         * activity have its own drawer instance. */
+        NavigationView menu = ((NavigationView) findViewById(R.id.nav_view));
+        menu.setCheckedItem(this.getNavID());
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -93,8 +106,10 @@ public abstract class NavigationActivity extends AppCompatActivity
         }
         startActivity(intent);
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 }

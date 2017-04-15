@@ -67,11 +67,17 @@ public class Lesson {
         values.put("weather", this.weather.toString());
 
         if (this.id < 0) {
-            getDb().insert("lessons", null, values);
+            this.id = (int) getDb().insert("lessons", null, values);
         }
         else {
             String[] args = {Integer.toString(id)};
             getDb().update("lessons", values, "id = ?", args);
+        }
+    }
+
+    public void delete() {
+        if (this.id >= 0) {
+            getDb().delete("lessons", "id = ?", new String[]{Integer.toString(this.id)});
         }
     }
 

@@ -7,6 +7,12 @@ import android.view.ViewGroup;
 
 
 public class StatisticsActivity extends NavigationActivity {
+
+    @Override
+    protected int getNavID() {
+        return R.id.drawer_statistics;
+    }
+
     @Override
     protected void setInnerContentView(ViewGroup root) {
         getLayoutInflater().inflate(R.layout.content_statistics, root);

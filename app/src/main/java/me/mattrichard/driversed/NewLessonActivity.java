@@ -1,5 +1,6 @@
 package me.mattrichard.driversed;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -7,6 +8,11 @@ import android.view.ViewGroup;
 
 public class NewLessonActivity extends NavigationActivity
         implements EditLessonFragment.OnLessonSaveListener {
+
+    @Override
+    protected int getNavID() {
+        return R.id.drawer_new_lesson;
+    }
 
     private EditLessonFragment editLessonFragment;
 
@@ -43,6 +49,18 @@ public class NewLessonActivity extends NavigationActivity
 
     @Override
     public void onLessonSave() {
+        editLessonFragment.setLesson(new Lesson());
+    }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        // TODO: Confirm cancellation of current lesson before creating new lesson
+        // "Replace existing lesson?" "Yes" "No"
+
+        if (true /*response is yes*/) {
+            editLessonFragment.setLesson(new Lesson());
+        }
     }
 }

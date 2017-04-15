@@ -2,6 +2,7 @@ package me.mattrichard.driversed;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,7 +33,10 @@ public class EditLessonFragment extends Fragment {
     private TextView hoursText;
     private Long startTime = null;
 
-    public Lesson lesson;
+    private Lesson lesson;
+
+    private boolean modified = false;
+    private boolean timing = false;
 
     public EditLessonFragment() {
         // Required empty public constructor
@@ -58,10 +62,6 @@ public class EditLessonFragment extends Fragment {
         conditionsSpinner = (Spinner) layout.findViewById(R.id.conditionSpinner);
         dateText = (TextView) layout.findViewById(R.id.dateText);
         hoursText = (TextView) layout.findViewById(R.id.hoursText);
-
-        // Initialize text
-        dateText.setText(new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime()));
-        hoursText.setText("-");
 
         // Hook up buttons to onClick callbacks
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -91,36 +91,30 @@ public class EditLessonFragment extends Fragment {
 
     public void onPressStart(View v) {
         startTime = System.currentTimeMillis();
-        hoursText.setText("In progress");
+        timing = true;
 
-        stopButton.setEnabled(true);
-        startButton.setEnabled(false);
-        clearButton.setEnabled(false);
-        saveAction.setEnabled(false);
+        updateViews();
     }
 
     public void onPressStop(View v) {
         lesson.numHours += (System.currentTimeMillis() - startTime) / (double) (1000 * 60 * 60);
-        hoursText.setText(String.format("%.2f", lesson.numHours));
         startTime = null;
+        timing = false;
+        modified = true;
 
-        stopButton.setEnabled(false);
-        startButton.setEnabled(true);
-        clearButton.setEnabled(true);
-        saveAction.setEnabled(true);
+        updateViews();
     }
 
     public void onPressClear(View v) {
-        lesson.numHours = 0;
-        hoursText.setText("-");
-        dateText.setText(new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime()));
+        setLesson(new Lesson());
     }
 
     public void onPressSave() {
         String toast;
         if (lesson.numHours > 0) {
-            toast = "Drive saved";
+            toast = "Drive saved to logs";
             lesson.save();
+            modified = false;
         } else {
             toast = "Won't save 0-hour drive";
         }
@@ -136,6 +130,11 @@ public class EditLessonFragment extends Fragment {
 
         inflater.inflate(R.menu.action_bar_edit_lesson, menu);
         saveAction = menu.findItem(R.id.action_save);
+
+        // Initialize view states. This is in onCreateOptionsMenu because
+        // saveAction can't be set until this stage in the Fragment's
+        // lifecycle.
+        setLesson(new Lesson());
     }
 
     @Override
@@ -163,6 +162,26 @@ public class EditLessonFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    /**
+     * Replaces the Lesson represented by this fragment.
+     */
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
+        modified = false;
+        updateViews();
+    }
+
+    public void updateViews() {
+        saveAction.setEnabled(modified && !timing);
+
+        startButton.setEnabled(!timing);
+        stopButton.setEnabled(timing);
+        clearButton.setEnabled(!timing);
+
+        dateText.setText(new SimpleDateFormat("MM/dd/yyyy").format(lesson.date));
+        hoursText.setText(timing ? "In progress" : lesson.numHours <= 0 ? "-" : String.format("%.2f",lesson.numHours));
     }
 
     public interface OnLessonSaveListener {

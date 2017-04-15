@@ -9,7 +9,7 @@ import android.view.ViewGroup;
  * Created by Matt on 3/31/2017.
  */
 
-public class EditLessonActivity extends NavigationActivity
+/*public class EditLessonActivity extends NavigationActivity
         implements EditLessonFragment.OnLessonSaveListener {
 
     private EditLessonFragment editLessonFragment;
@@ -50,3 +50,4 @@ public class EditLessonActivity extends NavigationActivity
 
     }
 }
+*/
